@@ -15,7 +15,7 @@ RUN apt-get update && \
     sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i "s!memory_limit =.\+!memory_limit = -1!g" /etc/php/${PHP_VERSION}/cli/php.ini && \
     sed -i "s!memory_limit =.\+!memory_limit = -1!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
-    sed -i "s!;error_log = php_errors.log!error_log = /proc/self/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i "s!;error_log = php_errors.log!error_log = /proc/1/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i "s!max_execution_time = 30!max_execution_time = 600!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i "s!session.gc_probability = 0!session.gc_probability = 1!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
     #
@@ -27,6 +27,11 @@ RUN apt-get update && \
     # Route nginx logs to syslog socket (will show in Docker logs)
     sed -i 's!/var/log/nginx/access.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
     sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
+    # (Issue #3) Fix lines being truncated in docker logs.
+    echo "log_errors_max_len = 8192" >> /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    echo "log_limit = 8192" >> /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
+    echo "decorate_workers_output = no" >> /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
+    #
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
     #
     # Cleanup
