@@ -23,5 +23,15 @@
         "phpexperts/docker-phpstan":  "Dockerized phpstan/phpstan",
         "phpexperts/docker-rector":   "Dockerized rector/rector"
     },
+    "scripts": {
+        "post-install-cmd": [
+            "php ./install.php"
+        ]
+    },
+    "autoload": {
+        "files": [
+            "install.php"
+        ]
+    },
     "bin": ["bin/php", "bin/composer"]
 }
