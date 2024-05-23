@@ -1,3 +1,12 @@
+## v9.2.1
+* **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16. 2.0, ]
+
+## v9.2.0
+* **[2024-05-21 21:31:26 CDT]** Configured it so that composer will run the install script. 
+
+## v9.1.2
+* **[2024-05-21 06:27:48 CDT]** Fixes docker logs being truncated. origin/v9.
+
 ## v9.1.1
 * **[2024-01-16 03:15:49 CST]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in projects with a defined network.
 * **[2024-01-14 14:22:31 CST]** Fixed the Docker installer.

@@ -1,5 +1,5 @@
   mariadb:
-    image: mariadb:10.4
+    image: mariadb:10.11
     volumes:
       - /var/lib/docker/mariadb/${DB_DATABASE}:/var/lib/mysql
 
