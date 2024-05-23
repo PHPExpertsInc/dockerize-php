@@ -7,9 +7,9 @@ Watch the installation video: https://youtu.be/xZxaJcsbrWU
 Includes: 
  * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, and 8.3
  * Nginx
- * Redis
- * PostgreSQL v15
- * MariaDB v10.5
+ * Redis v7.3
+ * PostgreSQL v16
+ * MariaDB v10.11
  * Oracle ext-oci
 
 The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and Redis.
@@ -33,6 +33,7 @@ If you need an extension that is not available in the `full` build, please creat
 Out of the box, you have per-project binaries:
 
  * **php**
+ * **composer**
  * mysql
  * mysqldump
  * psql
@@ -52,8 +53,9 @@ Out of the box, you have per-project binaries:
 
 ### Via Composer
 
+    # Ensure that vendor/bin is in your PATH and before /usr/bin.
     composer require --dev phpexperts/dockerize
-    vendor/phpexperts/dockerize/install.php
+    php install
     docker-compose up -d
 
 ### Via GitHub (Zero PHP dependencies)
@@ -78,6 +80,15 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
     PATH=./vendor/bin:$PATH
 
 ## Latest Changes
+
+#### v9.2.1
+* **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16. 2.0, ]
+
+#### v9.2.0
+* **[2024-05-21 21:31:26 CDT]** Configured it so that composer will run the install script. 
+
+#### v9.1.2
+* **[2024-05-21 06:27:48 CDT]** Fixes docker logs being truncated. origin/v9.
 
 #### v9.1.1
 * **[2024-01-16 03:15:49 CST]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in projects with a defined network.
