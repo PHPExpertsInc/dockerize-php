@@ -1,5 +1,5 @@
   postgres:
-    image: postgres:12.2
+    image: postgres:16
     volumes:
       - /var/lib/docker/postgres/${DB_DATABASE}:/var/lib/postgresql
 
