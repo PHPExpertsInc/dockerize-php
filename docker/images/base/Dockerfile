@@ -7,6 +7,8 @@ ARG PHP_VERSION=8.0
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
+COPY install.sh /usr/local/bin
+
 ## Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
 #RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 

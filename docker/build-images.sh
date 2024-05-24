@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3"
-#PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3"
+#PHP_VERSIONS="8.1 8.3"
 #PHP_VERSIONS="8.2"
 cd images
 
@@ -9,21 +9,27 @@ export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 
 # Build the base linux image first.
 export DOCKER_BUILDKIT=1
-docker rmi --force phpexperts/linux:latest
-docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
-docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
+
+#docker rmi --force phpexperts/linux:latest
+#docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
+#docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
 # Download build assets
 ## IonCube
-echo "Downloading IonCube..."
-curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
-mv ioncube_loaders_lin_x86-64.tar.gz ./base-ioncube/.build-assets/
+if [ ! -f ./base-ioncube/.build-assets/ioncube_loaders_lin_x86-64.tar.gz ]; then
+    echo "Downloading IonCube..."
+    curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+    mv ioncube_loaders_lin_x86-64.tar.gz ./base-ioncube/.build-assets/
+fi
+
 # Oracle OCI8
-echo "Downloading Oracle's Instantclient + SDK..."
-curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip
-mv instantclient-basic-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
-curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip
-mv instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
+if [ ! -f ./base-oracle/.build-assets/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ]; then
+    echo "Downloading Oracle's Instantclient + SDK..."
+    curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip
+    mv instantclient-basic-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
+    curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip
+    mv instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
+fi
 
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
