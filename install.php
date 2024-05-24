@@ -7,6 +7,11 @@ if (is_readable(getcwd() . '/docker-compose.yml')) {
     return;
 }
 
+class AvailablePort
+{
+    public static int $PORT = 80;
+}
+
 $PHP_IMAGE = installPHP();
 
 installDockerEngines($PHP_IMAGE);
@@ -58,7 +63,6 @@ function findFirstAvailablePort(int $initialPort): int
         $port = $port === 80 ? 8000-1 : $port + 1;
     }
 
-
     return $port;
 }
 
@@ -70,6 +74,7 @@ function installPHP(): string
     foreach ($dockerImages as $index => $PHP_IMAGE) {
         $PHP_VERSION = $index > 0 ? str_replace(['-debug', '.'], '', $PHP_IMAGE) : '';
         $PORT = $index === 0 ? findFirstAvailablePort(80) : "80{$PHP_VERSION}";
+        AvailablePort::$PORT = $PORT;
 
         $versionStub = <<<YAML
   web{$PHP_VERSION}:
@@ -361,3 +366,11 @@ function overwriteOrAppendFile($srcFile, $destFile, $resetFirstRun = false)
 
     $firstRun = false;
 }
+
+$port = AvailablePort::$PORT;
+echo "\n";
+echo "=========================================================================\n";
+echo "==== Dockerized Nginx will be listening on http://localhost:$port/    ====\n";
+echo "==== Edit the credentials in the docker-compose.yml now and then run ====\n";
+echo "====                   docker compose up                             ====\n";
+echo "=========================================================================\n";
