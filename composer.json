@@ -28,10 +28,5 @@
             "vendor/bin/php dockerize"
         ]
     },
-    "autoload": {
-        "files": [
-            "install.php"
-        ]
-    },
     "bin": ["bin/php", "bin/composer"]
 }
