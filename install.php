@@ -7,9 +7,9 @@ if (is_readable(getcwd() . '/docker-compose.yml')) {
     return;
 }
 
-installPHP();
+$PHP_IMAGE = installPHP();
 
-installDockerEngines();
+installDockerEngines($PHP_IMAGE);
 
 $DIR = __DIR__;
 if (!is_dir('./docker')) {
@@ -62,12 +62,11 @@ function findFirstAvailablePort(int $initialPort): int
     return $port;
 }
 
-function installPHP()
+function installPHP(): string
 {
     $dockerStub = file_get_contents(__DIR__ . '/docker/docker-compose.base.yml');
     $dockerImages = choosePHPVersions();
     $newDockerCompose = '';
-
     foreach ($dockerImages as $index => $PHP_IMAGE) {
         $PHP_VERSION = $index > 0 ? str_replace(['-debug', '.'], '', $PHP_IMAGE) : '';
         $PORT = $index === 0 ? findFirstAvailablePort(80) : "80{$PHP_VERSION}";
@@ -87,6 +86,8 @@ YAML;
     $dockerStub = str_replace('{{PHP_STUB}}', $newDockerCompose, $dockerStub);
     echo "Current working directory: " . getcwd() . "\n";
     file_put_contents('docker-compose.yml', $dockerStub);
+
+    return $PHP_IMAGE;
 }
 
 function choosePHPVersions()
@@ -173,7 +174,7 @@ function choosePHPVersions()
     return $selectedVersions;
 }
 
-function installDockerEngines()
+function installDockerEngines(string $PHP_IMAGE)
 {
     $engines = chooseDockerEngines();
 
@@ -185,6 +186,7 @@ function installDockerEngines()
         installDockerEngine($engine, __DIR__ . "/engines/$engine");
     }
 
+    file_put_contents('.env.example', "\nPHP_VERSION=\"$PHP_IMAGE\"\n", FILE_APPEND);
     system('cp .env.example .env');
 }
 
@@ -343,8 +345,7 @@ function overwriteOrAppendFile($srcFile, $destFile, $resetFirstRun = false)
 
     if (!$shouldAppend) {
         $srcFile = escapeshellarg($srcFile);
-        $destFile = escapeshellarg($destFile);
-        system("cp $srcFile $destFile");
+        system("cp $srcFile " . escapeshellarg($destFile));
         $shouldAppend = true;
         $firstRun = false;
 

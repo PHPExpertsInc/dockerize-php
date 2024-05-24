@@ -1,14 +1,14 @@
 #!/bin/bash
 
 mkdir -p ./vendor/bin
-if [ ! -f ./vendor/bin/composer ]; then
-    echo "Downloading phpexperts/dockerize's php CLI launcher..."
-    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/composer -o vendor/bin/composer
-    echo "Downloading phpexperts/dockerize's composer CLI launcher..."
-    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/php -o vendor/bin/php
-    #cp -v /code/dockerize/bin/php vendor/bin/php
-    chmod 0755 ./vendor/bin/composer ./vendor/bin/php
-fi
+#if [ ! -f ./vendor/bin/composer ]; then
+echo "Downloading phpexperts/dockerize's php CLI launcher..."
+curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/bin/composer -o vendor/bin/composer
+echo "Downloading phpexperts/dockerize's composer CLI launcher..."
+curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/bin/php -o vendor/bin/php
+#cp -v /code/dockerize/bin/php vendor/bin/php
+chmod 0755 ./vendor/bin/composer ./vendor/bin/php
+#fi
 hash -r
 
 # @see https://linuxize.com/post/how-to-check-if-string-contains-substring-in-bash/
@@ -70,7 +70,7 @@ export PHP_VERSION=8.3
 
 vendor/bin/php --version
 
-cp -v /code/dockerize/install.php vendor/phpexperts/dockerize/install.php
+#cp -v /code/dockerize/install.php vendor/phpexperts/dockerize/install.php
 
 if [ ! -f docker-compose.yml ]; then
     vendor/bin/php dockerize

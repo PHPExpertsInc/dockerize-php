@@ -25,7 +25,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php ./install.php"
+            "vendor/bin/php dockerize"
         ]
     },
     "autoload": {
