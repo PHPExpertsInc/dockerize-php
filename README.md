@@ -7,7 +7,7 @@ Watch the installation video: https://youtu.be/xZxaJcsbrWU
 Includes: 
  * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, and 8.3
  * Nginx
- * Redis v7.3
+ * Redis v7.2
  * PostgreSQL v16
  * MariaDB v10.11
  * Oracle ext-oci
@@ -49,8 +49,10 @@ Out of the box, you have per-project binaries:
 
 ## Via Bash (Zero PHP dependencies)
 
-    bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/dockerize.sh')
-    # Edit credentials in docker-compose.yml
+    bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/dockerize.sh')
+
+Then edit credentials in docker-compose.yml
+
     docker compose up -d
 
 ### Via Composer
@@ -72,6 +74,11 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
     PATH=./vendor/bin:$PATH
 
 ## Latest Changes
+
+#### v10.0.0
+* **[2024-05-24 07:40:15 CDT]** Added a comprehensive zero-dependency Bash-via-curl installer.
+* **[2024-05-24 07:31:26 CDT]** Added a mechanism for finding the first open HTTP port for nginx. master
+* **[2024-05-24 07:30:16 CDT]** Redis removed v7.3 from docker; switched to v7.2.
 
 #### v9.2.1
 * **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16.
@@ -102,31 +109,6 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
 * **[2024-01-13 22:50:16 CST]** Added wget to the base PHP image.
 * **[2024-01-12 17:30:47 CST]** Refactored IonCube builds so that the extension is only downloaded once.
 * **[2024-01-12 14:49:27 CST]** Added a `full` docker build that contains every bundled PHP extension, and then some.
-
-#### v8.2.0
-* **[2024-01-12 05:58:13 CST]** Removed Ubuntu's apt files to save space in the base image.
-* **[2024-01-07 09:30:00 CST]** Fixed the building of the ioncube images.
-* **[2024-01-07 03:28:00 CST]** [major] Fixed the broken web images.
-* **[2023-12-05 10:10:39 CST]** Added PHP v8.3 support.
-* **[2023-12-05 10:09:40 CST]** Added a PHP version test script.
-
-#### v8.1.0
-* **[2023-07-23 03:21:22 CDT]** Now Dockerize PHP will run in the container, if it's running, or create a temp one if it's not.
-* **[2023-05-19 05:35:27 CDT]** Updated to PHP v8.0.28, v8.1.19, and v8.2.6.
-* **[2023-05-19 05:30:36 CDT]** Changed the default image from PHP v7.4 to v8.0.
-* **[2023-02-03 07:19:37 CST]** Majorly refactored so that it executes a persistent container for native launch speeds.
-
-##### v8.0.1
-* **[2023-01-20 21:58:20 CDT]** Fixed the problem that prevented the web images from being successfully built.
-
-##### v8.0.0
-* **[2022-08-11 00:37:03 CST]** Boosted the default version of PHP to 8.1.
-* **[2022-08-11 00:37:33 CST]** Added PHP v8.2 support. master
-* **[2023-01-17 06:59:14 CST]** Cleaned up the build script so that it tags instead of building duplicate images.
-* **[2023-01-17 07:00:57 CST]** Improved the Linux base image build.
-* **[2023-01-17 08:46:09 CST]** Explicitly set the default PHP version to 8.1.
-* **[2023-01-17 07:41:52 CST]** Now, PHP will be launched from a continuously-running container for much faster runtimes at the expense of about 130 MB per container.
-* **[2023-01-17 08:57:42 CST]** Added support for PHP 8.2.
 
 ## Manage with docker-compose
 

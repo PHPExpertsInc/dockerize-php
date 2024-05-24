@@ -3,6 +3,10 @@
 
 namespace PHPExperts\Dockerize;
 
+if (is_readable(getcwd() . '/docker-compose.yml')) {
+    return;
+}
+
 installPHP();
 
 installDockerEngines();

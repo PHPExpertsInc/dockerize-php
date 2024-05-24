@@ -6,7 +6,7 @@ if [ ! -f ./vendor/bin/composer ]; then
     curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/composer -o vendor/bin/composer
     echo "Downloading phpexperts/dockerize's composer CLI launcher..."
     curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/php -o vendor/bin/php
-    cp -v /code/dockerize/bin/php vendor/bin/php
+    #cp -v /code/dockerize/bin/php vendor/bin/php
     chmod 0755 ./vendor/bin/composer ./vendor/bin/php
 fi
 hash -r
@@ -66,12 +66,14 @@ fi
 vendor/bin/composer show phpexperts/dockerize > /dev/null 2>&1 || vendor/bin/composer require --ignore-platform-reqs --dev phpexperts/dockerize
 
 export PHP_VERSION=8.3
-cp -v /code/dockerize/bin/php vendor/bin/php
+#cp -v /code/dockerize/bin/php vendor/bin/php
 
 vendor/bin/php --version
 
 cp -v /code/dockerize/install.php vendor/phpexperts/dockerize/install.php
 
-vendor/bin/php dockerize
+if [ ! -f docker-compose.yml ]; then
+    vendor/bin/php dockerize
+fi
 
 #script -qc "/usr/bin/php vendor/phpexperts/dockerize/install.php" typescript
