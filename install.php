@@ -33,6 +33,31 @@ TEXT;
 
 echo $funding;
 
+function findFirstAvailablePort(int $initialPort): int
+{
+    $ip = '0.0.0.0';
+    for ($port = $initialPort; $port <= 65535; $port++) {
+        //echo "Attempting Port $port...\n";
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if ($socket === false) {
+            echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+            continue;
+        }
+
+        if (@socket_bind($socket, $ip, $port) !== false) {
+            echo "First available port: $port\n";
+            socket_close($socket);
+            break;
+        }
+
+        socket_close($socket);
+        $port = $port === 80 ? 8000-1 : $port + 1;
+    }
+
+
+    return $port;
+}
+
 function installPHP()
 {
     $dockerStub = file_get_contents(__DIR__ . '/docker/docker-compose.base.yml');
@@ -41,7 +66,7 @@ function installPHP()
 
     foreach ($dockerImages as $index => $PHP_IMAGE) {
         $PHP_VERSION = $index > 0 ? str_replace(['-debug', '.'], '', $PHP_IMAGE) : '';
-        $PORT = $index === 0 ? '80' : "80{$PHP_VERSION}";
+        $PORT = $index === 0 ? findFirstAvailablePort(80) : "80{$PHP_VERSION}";
 
         $versionStub = <<<YAML
   web{$PHP_VERSION}:
