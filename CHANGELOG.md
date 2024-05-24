@@ -1,3 +1,8 @@
+#### v10.0.0: Self-hosted 100% 0-Dependency Bash installer
+* **[2024-05-24 07:40:15 CDT]** Added a comprehensive zero-dependency Bash-via-curl installer.
+* **[2024-05-24 07:31:26 CDT]** Added a mechanism for finding the first open HTTP port for nginx. master
+* **[2024-05-24 07:30:16 CDT]** Redis removed v7.3 from docker; switched to v7.2.
+
 ## v9.2.1
 * **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16. 2.0, ]
 
