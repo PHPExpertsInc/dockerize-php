@@ -29,7 +29,7 @@ RUN apt-get update && \
     sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
     # (Issue #3) Fix lines being truncated in docker logs.
     echo "log_errors_max_len = 8192" >> /etc/php/${PHP_VERSION}/fpm/php.ini && \
-    echo "log_limit = 8192" >> /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
+    echo "log_limit = 8192" >> /etc/php/${PHP_VERSION}/fpm/php.ini && \
     echo "decorate_workers_output = no" >> /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
     #
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
