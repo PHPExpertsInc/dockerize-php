@@ -1,9 +1,11 @@
-version: '3.6'
+# The "version" tag has been deprecated, due to poor logic, imho...
+# @see https://github.com/docker/compose/issues/11628
+#version: '3.6'
 # Requires Docker v18.02 or higher.
 
 #####################################################################
-#   The DockerPHP Project                                           #
-#   https://github.com/phpexpertsinc/docker-php                     #
+#   The Dockerize PHP Project                                           #
+#   https://github.com/PHPExpertsInc/docker-php                     #
 #   License: MIT                                                    #
 #                                                                   #
 #   Copyright © 2018-2024 PHP Experts, Inc. <sales@phpexperts.pro>  #

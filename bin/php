@@ -64,4 +64,16 @@ if [ "$(docker top "${PROJECT_NAME}"${PHP_VERSION} 2> /dev/null)" ]; then
     exit
 fi
 
-docker run ${NETWORK_STRING} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":"$PWD" -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -it phpexperts/php:${PHP_VERSION} "$@"
+TTY_OPTS='-t'
+if [ -t 0 ]; then
+    # Input is from a terminal
+    TTY_OPTS="-it"
+fi
+
+if [ "$1" == "dockerize" ]; then
+    docker run -u=$UID -v "$PWD":/workdir --rm -it --network=host --entrypoint=install.sh phpexperts/php:${PHP_VERSION}
+    exit
+fi
+
+
+docker run ${NETWORK_STRING} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":"$PWD" -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm ${TTY_OPTS} phpexperts/php:${PHP_VERSION} $@

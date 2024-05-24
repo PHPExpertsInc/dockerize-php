@@ -91,7 +91,8 @@ function choosePHPVersions()
 
     $selection = '';
     $selectedChoices = [];
-    while ($selection === '') {
+    $tryCount = 10;
+    while ($selection === '' && --$tryCount > 0) {
         echo "Choose PHP Web Versions (e.g., '1 3' for both $PHP_VERSIONS[0] and $PHP_VERSIONS[2]):\n";
         foreach ($PHP_VERSIONS as $index => $version) {
             ++$index;
@@ -112,7 +113,43 @@ function choosePHPVersions()
         }
     }
 
+    if ($tryCount <= 0) {
+        echo "ERROR: Stuck in a loop...STDIN is probably missing. Try adding -i to the docker command.\n";
+        exit(3);
+    }
+
     $selectedVersions = array_values(array_intersect_key($PHP_VERSIONS, array_flip($selectedChoices)));
+
+    $yesNo = '';
+    while (!in_array($yesNo, ['y', 'n'])) {
+        echo "\nDo you need every bundled PHP extension? (rarely needed; disables xdebug support) (y/N)\n";
+        $yesNo = getUserInput();
+        $yesNo = $yesNo === '' ? 'n' : $yesNo;
+    }
+
+    if ($yesNo === 'y') {
+        $isFullBuild = true;
+        foreach ($selectedVersions as &$version) {
+            $version .= '-full';
+        }
+
+        return $selectedVersions;
+    }
+
+    $yesNo = '';
+    while (!in_array($yesNo, ['y', 'n'])) {
+        echo "\nDo you need Xdebug support? (y/N)\n";
+        $yesNo = getUserInput();
+        $yesNo = $yesNo === '' ? 'n' : $yesNo;
+    }
+
+    if ($yesNo === 'y') {
+        foreach ($selectedVersions as &$version) {
+            $version .= '-debug';
+        }
+
+        return $selectedVersions;
+    }
 
     $yesNo = '';
     while (!in_array($yesNo, ['y', 'n'])) {
@@ -125,21 +162,8 @@ function choosePHPVersions()
         foreach ($selectedVersions as &$version) {
             $version .= '-ioncube';
         }
-echo "hmm";
+
         return $selectedVersions;
-    }
-    $yesNo = '';
-
-    while (!in_array($yesNo, ['y', 'n'])) {
-        echo "\nDo you need Xdebug support? (y/N)\n";
-        $yesNo = getUserInput();
-        $yesNo = $yesNo === '' ? 'n' : $yesNo;
-    }
-
-    if ($yesNo === 'y') {
-        foreach ($selectedVersions as &$version) {
-            $version .= '-debug';
-        }
     }
 
     return $selectedVersions;

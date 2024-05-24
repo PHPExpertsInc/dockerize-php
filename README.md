@@ -49,26 +49,18 @@ Out of the box, you have per-project binaries:
 
 ## Via Bash (Zero PHP dependencies)
 
-    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/dockerize.sh | bash
+    bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/dockerize.sh')
+    # Edit credentials in docker-compose.yml
+    docker compose up -d
 
 ### Via Composer
 
     # Ensure that vendor/bin is in your PATH and before /usr/bin.
     composer require --dev phpexperts/dockerize
-    php install
+    vendor/bin/php dockerize
+    # Edit credentials in docker-compose.yml
     docker-compose up -d
 
-### Via GitHub (Zero PHP dependencies)
-
-From inside your project's directory:
-
-    git clone https://github.com/PHPExpertsInc/dockerize-php.git
-    mkdir -p ./vendor/bin
-    cp -r dockerize-php/bin/* ./vendor/bin/
-    chmod 0755 ./vendor/bin/composer ./vendor/bin/php
-    ./vendor/bin/php install.php
-    docker-compose up -d
-    
 Don't forget to edit your docker-compose.yml!
 
 ### Configure your PATH
@@ -82,7 +74,7 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
 ## Latest Changes
 
 #### v9.2.1
-* **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16. 2.0, ]
+* **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16.
 
 #### v9.2.0
 * **[2024-05-21 21:31:26 CDT]** Configured it so that composer will run the install script. 

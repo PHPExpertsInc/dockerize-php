@@ -6,9 +6,19 @@ if [ ! -f ./vendor/bin/composer ]; then
     curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/composer -o vendor/bin/composer
     echo "Downloading phpexperts/dockerize's composer CLI launcher..."
     curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/php -o vendor/bin/php
+    cp -v /code/dockerize/bin/php vendor/bin/php
     chmod 0755 ./vendor/bin/composer ./vendor/bin/php
 fi
 hash -r
+
+# @see https://linuxize.com/post/how-to-check-if-string-contains-substring-in-bash/
+# @see https://github.com/composer/composer/issues/10389
+SUB="/vendor/"
+if [[ "$0" == *"$SUB"* ]]; then
+  ROOT="$(readlink -f /proc/$PPID/cwd)"
+else
+  ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+fi
 
 if ! echo $PATH | grep -q ./vendor/bin; then
     echo 'You do not have ./vendor/bin in your $PATH.'
@@ -40,9 +50,28 @@ if ! echo $PATH | grep -q ./vendor/bin; then
     fi
 fi
 
-# See if they already have phpexperts/dockerize installed via composer...
-# If not, install it...
-composer show phpexperts/dockerize > /dev/null 2>&1 || composer require --ignore-platform-reqs --dev phpexperts/dockerize
+ORIG_PHP_VERSION=$PHP_VERSION
+if [ -f "${ROOT}/.env" ]; then
+    source "${ROOT}/.env"
+    if [ ! -z "$ORIG_PHP_VERSION" ]; then
+        PHP_VERSION="$ORIG_PHP_VERSION"
+    fi
+fi
 
-./vendor/phpexperts/dockerize/bin/php ./vendor/phpexperts/dockerize/install.php
+if [ -z "$PHP_VERSION" ]; then
+    PHP_VERSION="8.1"
+fi
 
+#echo "PHP Version: $PHP_VERSION"
+vendor/bin/composer show phpexperts/dockerize > /dev/null 2>&1 || vendor/bin/composer require --ignore-platform-reqs --dev phpexperts/dockerize
+
+export PHP_VERSION=8.3
+cp -v /code/dockerize/bin/php vendor/bin/php
+
+vendor/bin/php --version
+
+cp -v /code/dockerize/install.php vendor/phpexperts/dockerize/install.php
+
+vendor/bin/php dockerize
+
+#script -qc "/usr/bin/php vendor/phpexperts/dockerize/install.php" typescript
