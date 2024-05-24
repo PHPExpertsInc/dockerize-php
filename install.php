@@ -371,6 +371,6 @@ $port = AvailablePort::$PORT;
 echo "\n";
 echo "=========================================================================\n";
 echo "==== Dockerized Nginx will be listening on http://localhost:$port/    ====\n";
-echo "==== Edit the credentials in the docker-compose.yml now and then run ====\n";
+echo "==== Edit the credentials in the .env now and then run               ====\n";
 echo "====                   docker compose up                             ====\n";
 echo "=========================================================================\n";
