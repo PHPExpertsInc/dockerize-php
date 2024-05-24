@@ -1,7 +1,7 @@
   redis:
     # Warning: Redis changed to a proprietary license with v7.4 and later.
     # @see https://redis.io/blog/redis-adopts-dual-source-available-licensing/
-    image: redis:7.3
+    image: redis:7.2
     entrypoint:
       - redis-server
       - --requirepass ${REDIS_PASSWORD}
