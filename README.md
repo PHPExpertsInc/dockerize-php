@@ -51,7 +51,7 @@ Out of the box, you have per-project binaries:
 
     bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/dockerize.sh')
 
-Then edit credentials in docker-compose.yml
+Then edit credentials in .env.
 
     docker compose up -d
 
@@ -60,7 +60,7 @@ Then edit credentials in docker-compose.yml
     # Ensure that vendor/bin is in your PATH and before /usr/bin.
     composer require --dev phpexperts/dockerize
     vendor/bin/php dockerize
-    # Edit credentials in docker-compose.yml
+    # Edit credentials in .env.
     docker-compose up -d
 
 Don't forget to edit your docker-compose.yml!
