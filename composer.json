@@ -28,5 +28,5 @@
             "vendor/bin/php dockerize"
         ]
     },
-    "bin": ["bin/php", "bin/composer"]
+    "bin": ["bin/php", "bin/composer", "bin/php-ci.sh"]
 }

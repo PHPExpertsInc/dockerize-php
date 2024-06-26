@@ -1,4 +1,7 @@
-#### v10.0.0: Self-hosted 100% 0-Dependency Bash installer
+## v10.0.2
+* **[2024-06-26 00:57:05 CDT]** Added my php-ci.sh script.
+
+## v10.0.0: Self-hosted 100% 0-Dependency Bash installer
 * **[2024-05-24 07:40:15 CDT]** Added a comprehensive zero-dependency Bash-via-curl installer.
 * **[2024-05-24 07:31:26 CDT]** Added a mechanism for finding the first open HTTP port for nginx. master
 * **[2024-05-24 07:30:16 CDT]** Redis removed v7.3 from docker; switched to v7.2.
