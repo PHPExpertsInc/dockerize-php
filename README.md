@@ -4,6 +4,8 @@ A utility for rapidly deploying [Docker](https://www.docker.com) for PHP apps.
 
 Watch the installation video: https://youtu.be/xZxaJcsbrWU
 
+## This project has been tested against over 350,000 open-sourced Packagist packages and is compatible with 99.999% of them.
+
 Includes: 
  * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, and 8.3
  * Nginx
@@ -34,6 +36,7 @@ Out of the box, you have per-project binaries:
 
  * **php**
  * **composer**
+ * **php-ci.sh**
  * mysql
  * mysqldump
  * psql
@@ -42,6 +45,17 @@ Out of the box, you have per-project binaries:
  * dropdb
  * redis
  * redis-cli
+
+# PHP CI via Docker
+
+With the **php-ci.sh** shell script, you can easily test your app or library against every major version of PHP (currently 7.4-8.3):
+
+In the project root directory, where your phpunit.xml is, or where you'd normally run phpunit:
+
+    vendor/bin/php-ci.sh
+
+It will then automagically update composer and run the appropriate version of PHPUnit for all of the major PHP versions
+via the power of Docker.
 
 # Installation
 
