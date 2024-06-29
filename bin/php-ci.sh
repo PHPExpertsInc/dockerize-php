@@ -9,7 +9,7 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
-SUPPORTED_PHP_VERSIONS=$(php vendor/phpexperts/dockerize/version-constraints.php)
+SUPPORTED_PHP_VERSIONS=$(php vendor/phpexperts/docker*/version-constraints.php)
 echo "Supported PHP versions: $SUPPORTED_PHP_VERSIONS"
 
 time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
@@ -21,10 +21,14 @@ time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
     elif [ $PHPV == '7.3' ] || [ $PHPV == '7.4' ] || [ $PHPV == '8.0' ]; then
         PHPUNIT_V='9'
     else
-        PHPUNIT_V='10'
+        if [ $PHPV == "8.1" ]; then
+            PHPUNIT_V='10'
+        else
+            PHPUNIT_V='11'
+        fi
     fi
 
-    if [ -f phpunit.v${PHPUNIT_V}.xml ];
+    if [ -f phpunit.v${PHPUNIT_V}.xml ]; then
         PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml
     else
         PHP_VERSION=$PHPV phpunit
