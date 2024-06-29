@@ -24,7 +24,11 @@ time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
         PHPUNIT_V='10'
     fi
 
-    PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml
+    if [ -f phpunit.v${PHPUNIT_V}.xml ];
+        PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml
+    else
+        PHP_VERSION=$PHPV phpunit
+    fi
 
     echo "Tested: PHP v$PHPV"
     sleep 2
