@@ -9,7 +9,10 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
-time for PHPV in 7.4 8.0 8.1 8.2 8.3-debug; do
+SUPPORTED_PHP_VERSIONS=$(php vendor/phpexperts/dockerize/version-constraints.php)
+echo "Supported PHP versions: $SUPPORTED_PHP_VERSIONS"
+
+time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
     PHP_VERSION=$PHPV composer --version
     PHP_VERSION=$PHPV composer update
     PHPUNIT_V=''
@@ -21,12 +24,7 @@ time for PHPV in 7.4 8.0 8.1 8.2 8.3-debug; do
         PHPUNIT_V='10'
     fi
 
-
-    if [ $PHPV == '8.2' ]; then
-        PHP_VERSION=$PHPV-debug phpunit -c phpunit.v${PHPUNIT_V}.xml
-    else
-        PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml
-    fi
+    PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml
 
     echo "Tested: PHP v$PHPV"
     sleep 2

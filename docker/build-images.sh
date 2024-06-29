@@ -10,9 +10,9 @@ export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 # Build the base linux image first.
 export DOCKER_BUILDKIT=1
 
-#docker rmi --force phpexperts/linux:latest
-#docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
-#docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
+docker rmi --force phpexperts/linux:latest
+docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
+docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
 # Download build assets
 ## IonCube
